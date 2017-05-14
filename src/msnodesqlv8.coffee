@@ -100,8 +100,11 @@ valueCorrection = (value, metadata) ->
 		
 	else if metadata.sqlType is 'udt' and value?
 		if UDT[metadata.udtType]
-			UDT[metadata.udtType] value
-			
+			try
+				UDT[metadata.udtType] value
+			catch error
+				if error not instanceof RangeError
+					throw error
 		else
 			value
 		
